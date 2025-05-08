@@ -1,5 +1,4 @@
 bioinformatics_venv
-
 # Ignorar toda a pasta data e peristence
 data/*
 
