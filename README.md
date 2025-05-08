@@ -1,5 +1,6 @@
 # Pipeline Bioinformática
 Autor : Ed Carlos Santos e Silva
+
 O seguinte projeto foi desenvolvido para atender ao processo seletivo de Bioinformata 
 
 1. Cálculo de cobertura genômica;
