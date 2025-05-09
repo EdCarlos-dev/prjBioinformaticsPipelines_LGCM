@@ -10,6 +10,8 @@ Objetivo:
 2. Inferência do sexo genético a partir dos dados de sequenciamento;
 3. Estimativa de contaminação por DNA exógeno ou de outros indivíduos.
 
+# Estrutura do projto
+
 
 # Instalação
 
