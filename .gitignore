@@ -1,13 +1,14 @@
 bioinformatics_venv
-# Ignorar toda a pasta data e peristence
+# Ignorar toda a pasta data
 data/*
 
-# Permitir que a pasta apareça
+# Permitir que as sub pastas apareçam
 !data/input/
 !data/intermediate
 !data/output
 
-# ignorar todos os arquivos dentro da pasta Comente as linhas para que os arquivos sejam carregados no git
+# ignorar todos os arquivos dentro da pasta 
+# Comente as linhas para que os arquivos sejam carregados no git
 data/input/*
 data/intermediate/*
 data/output/*
