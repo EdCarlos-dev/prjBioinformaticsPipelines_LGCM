@@ -25,7 +25,7 @@ def setup_logging(log_file):
 
 
 def process_one_sample(cram_file, bed_file, output_dir, intermediate_dir,
-                       samtools_path="samtools", bcftools_path="bcftools"):
+                       samtools_path="samtools", bcftools_path="bcftools", ref_fasta=None):
     """Processa um único arquivo CRAM."""
     sample_name = os.path.splitext(os.path.basename(cram_file))[0]
     sample_output_dir = os.path.join(output_dir, sample_name)
@@ -35,7 +35,7 @@ def process_one_sample(cram_file, bed_file, output_dir, intermediate_dir,
 
     bam_file = os.path.join(intermediate_dir, "bam_files", f"{sample_name}.bam")
     os.makedirs(os.path.dirname(bam_file), exist_ok=True)
-    convert_cram_to_bam(cram_file, bam_file, samtools_path)
+    convert_cram_to_bam(cram_file, bam_file, samtools_path, ref_fasta)
 
     # coverage_results = coverage.calculate_coverage(bam_file, bed_file, samtools_path)
     # write_results.write_results(sample_output_dir, "coverage_results.txt", coverage_results)
@@ -87,6 +87,9 @@ if __name__ == "__main__":
                         help="Caminho para samtools (opcional)")
     parser.add_argument("--bcftools_path", default="bcftools",
                         help="Caminho para bcftools (opcional)")
+    parser.add_argument("--ref_fasta",  # Adiciona o argumento ref_fasta
+                        default=os.getenv("REF_GEN_FILE"),
+                        help="Caminho para o arquivo FASTA do genoma de referência (opcional)")
 
     args = parser.parse_args()
 
