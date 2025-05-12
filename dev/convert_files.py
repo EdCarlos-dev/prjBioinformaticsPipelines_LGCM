@@ -12,7 +12,7 @@ def run_command(command, log_message):
         raise
 
 
-# scripts separados
+'''# scripts separados
 def convert_cram_to_bam(cram_file, output_bam, samtools_path="samtools"):
     """Converte CRAM para BAM usando samtools."""
     run_command(
@@ -20,6 +20,19 @@ def convert_cram_to_bam(cram_file, output_bam, samtools_path="samtools"):
         f"Conversão de CRAM para BAM: {cram_file} -> {output_bam}"
     )
     logging.info(f"CRAM convertido para BAM: {output_bam}")
+'''
+def convert_cram_to_bam(cram_file, output_bam, samtools_path="samtools", ref_fasta=None): # Adiciona ref_fasta
+    """Converte CRAM para BAM usando samtools."""
+    command = [samtools_path, "view", "-b", "-o", output_bam]
+    if ref_fasta:  # Adiciona a opção -T se ref_fasta for fornecido
+        command.extend(["-T", ref_fasta])
+    command.append(cram_file)
+    run_command(
+        command,
+        f"Conversão de CRAM para BAM: {cram_file} -> {output_bam}"
+    )
+    logging.info(f"CRAM convertido para BAM: {output_bam}")
+
 
 # scripts separados
 def convert_bam_to_fastq(bam_file, output_fastq_prefix, samtools_path="samtools"):
