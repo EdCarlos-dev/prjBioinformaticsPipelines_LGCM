@@ -56,7 +56,6 @@ def process_one_sample(cram_file, bed_file, output_dir, intermediate_dir,
 
     bam_file = os.path.join(intermediate_dir, "bam_files", f"{sample_name}.bam")
     os.makedirs(os.path.dirname(bam_file), exist_ok=True)
-
     
     try:
         if os.path.exists(bam_file):
