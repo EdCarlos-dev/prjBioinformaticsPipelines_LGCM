@@ -33,6 +33,7 @@ def setup_logging(log_file):
 
 def process_one_sample(cram_file, bed_file, output_dir, intermediate_dir,
                        samtools_path="samtools", bcftools_path="bcftools", ref_fasta=None):
+
     """Processa um único arquivo CRAM."""
     sample_name = os.path.splitext(os.path.basename(cram_file))[0]
     sample_output_dir = os.path.join(output_dir, "reports", sample_name)
@@ -48,28 +49,51 @@ def process_one_sample(cram_file, bed_file, output_dir, intermediate_dir,
         handler.setFormatter(formatter)
         sample_logger.addHandler(handler)
         sample_logger.setLevel(logging.INFO)
+    
+    print(f'Processando amostra: {sample_name}')
 
     sample_logger.info(f"Iniciando processamento da amostra: {sample_name}")
 
     bam_file = os.path.join(intermediate_dir, "bam_files", f"{sample_name}.bam")
     os.makedirs(os.path.dirname(bam_file), exist_ok=True)
+
+    
     try:
-        with tqdm(total=1, desc=f"Convertendo {sample_name}", unit="amostra") as pbar:
-            convert_cram_to_bam(cram_file, bam_file, samtools_path, ref_fasta)
-            pbar.update(1)
+        if os.path.exists(bam_file):
+            sample_logger.info(f"Arquivo BAM já existe: {bam_file}")
+            print(f"Arquivo BAM já existe: {bam_file}")
+
+        else:
+        
+            print(f'Convertendo CRAM para BAM: {cram_file} -> {bam_file}')
+            with tqdm(total=1, desc=f"Convertendo {sample_name}", unit="amostra") as pbar:
+                convert_cram_to_bam(cram_file, bam_file, samtools_path, ref_fasta)
+                pbar.update(1)
+
     except Exception as e:
         sample_logger.error(f"Erro ao converter CRAM para BAM para a amostra {sample_name}: {e}")
         raise
 
     # Indexa o arquivo BAM
     try:
-        subprocess.run([samtools_path, "index", bam_file], check=True)
-        sample_logger.info(f"Arquivo BAM indexado: {bam_file}.bai")
+        # Verifica se o arquivo BAM já está indexado
+        bam_index_file = f"{bam_file}.bai"
+        if os.path.exists(bam_index_file):
+            sample_logger.info(f"Arquivo BAM já indexado: {bam_index_file}")
+            print(f"Arquivo BAM já indexado: {bam_index_file}")
+
+        else:
+    
+            # Indexa o arquivo BAM
+            print(f'Indexando arquivo BAM: {bam_file}')
+            subprocess.run([samtools_path, "index", bam_file], check=True)
+            sample_logger.info(f"Arquivo BAM indexado: {bam_file}.bai")
     except subprocess.CalledProcessError as e:
         sample_logger.error(f"Erro ao indexar o arquivo BAM: {e}")
         raise
 
     # Calcula a cobertura usando o arquivo BAM gerado
+    print(f'Calculando cobertura para a amostra: {sample_name}')
     try:
         coverage_results = calculate_coverage(bam_file, bed_file, samtools_path)
         coverage_file_txt = os.path.join(sample_output_dir, f"coverage_{sample_name}_results.txt")
@@ -99,8 +123,10 @@ def process_one_sample(cram_file, bed_file, output_dir, intermediate_dir,
     except Exception as e:
         sample_logger.error(f"Erro ao calcular a cobertura para a amostra {sample_name}: {e}")
         raise
+    
 
     # Estima o sexo genético
+    print(f'Inferindo sexo genético para a amostra: {sample_name}')
     try:
         sex_inference_results = infer_sex(bam_file, bed_file, samtools_path, bcftools_path)
         sex_inference_file = os.path.join(sample_output_dir, f"sex_inference_{sample_name}.txt")
@@ -109,9 +135,12 @@ def process_one_sample(cram_file, bed_file, output_dir, intermediate_dir,
             f.write(f"Cromossomo Y Cobertura: {sex_inference_results['y_coverage']:.2f}x\n")
             f.write(f"Sexo Predito: {sex_inference_results['predicted_sex']}\n")
         sample_logger.info(f"Sexo genético inferido e salvo em {sex_inference_file}")
+
     except Exception as e:
         sample_logger.error(f"Erro ao inferir o sexo genético para a amostra {sample_name}: {e}")
         raise
+    
+    print(f'Processamento da amostra {sample_name} concluído')
 
     sample_logger.info(f"Processamento da amostra {sample_name} concluído")
 
@@ -119,7 +148,7 @@ def process_one_sample(cram_file, bed_file, output_dir, intermediate_dir,
 def main(cram_dir, bed_file, output_dir, intermediate_dir,
          samtools_path="samtools", bcftools_path="bcftools", ref_fasta=None):
     """Executa o pipeline de controle de qualidade para múltiplos arquivos."""
-    log_file = os.path.join(output_dir, "logs", "pipeline.log")
+    log_file = f'{output_dir}{os.sep}logs{os.sep}pipeline.log'
     os.makedirs(os.path.dirname(log_file), exist_ok=True)
     setup_logging(log_file)
 
@@ -145,7 +174,8 @@ def main(cram_dir, bed_file, output_dir, intermediate_dir,
         raise FileNotFoundError(f"Nenhum arquivo CRAM encontrado em: {cram_dir}")
 
     for cram_file in cram_files:
-        try:
+        try: 
+            # verificar antes se o arquivo cram já foi processado 
             process_one_sample(cram_file, bed_file, output_dir, intermediate_dir,
                                samtools_path, bcftools_path, ref_fasta)
         except Exception as e:
@@ -161,23 +191,23 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Pipeline de Controle de Qualidade de WES (Múltiplos Arquivos)")
     parser.add_argument("--cram_dir",
-                        default=project_dir+'data/input/cram_files',
+                        default=f'{project_dir}data{os.sep}input{os.sep}cram_files',
                         help="Diretório contendo os arquivos CRAM")
     parser.add_argument("--bed",
-                        default=project_dir+'data/input/bed_files/'+os.getenv("BED_FILE_NAME"),
+                        default=f'{project_dir}data{os.sep}input{os.sep}bed_files{os.sep}{os.getenv("BED_FILE_NAME")}',
                         help="Caminho para o arquivo BED")
     parser.add_argument("--output_dir",
-                        default=project_dir+'data/output',
+                        default=f'{project_dir}data{os.sep}output',
                         help="Diretório de saída principal")
     parser.add_argument("--intermediate_dir",
-                        default=project_dir+'data/intermediate',
+                        default=f'{project_dir}data{os.sep}intermediate',
                         help="Diretório intermediário")
     parser.add_argument("--samtools_path", default="samtools",
                         help="Caminho para samtools (opcional)")
     parser.add_argument("--bcftools_path", default="bcftools",
                         help="Caminho para bcftools (opcional)")
     parser.add_argument("--ref_fasta",
-                        default=project_dir+'data/input/ref_gen_files/'+os.getenv("REF_GEN_FILE_NAME"),
+                        default=f'{project_dir}data{os.sep}input{os.sep}ref_gen_files{os.sep}{os.getenv("REF_GEN_FILE_NAME")}',
                         help="Caminho para o arquivo FASTA do genoma de referência (opcional)")
 
     args = parser.parse_args()
