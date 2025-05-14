@@ -1,3 +1,4 @@
+
 import argparse
 import logging
 import subprocess
@@ -11,6 +12,14 @@ from dotenv import load_dotenv
 from convert_files import convert_cram_to_bam
 from coverage import calculate_coverage
 from sex_inference import infer_sex
+
+# diretório do arquivo atual
+diretorio_arquivo = os.path.dirname(os.path.abspath(__file__))
+# Pasta do projeto a partir desse script
+project_dir = os.path.normpath(f"{diretorio_arquivo}{os.sep}..{os.sep}") + os.sep
+# assim posso salvar os arquivos com seguraça em data
+# print(project_dir)
+
 
 # definir o caminho do arquivo atual e concatenar com as strings da env
 # Carrega as variáveis do arquivo .env
@@ -26,11 +35,11 @@ def process_one_sample(cram_file, bed_file, output_dir, intermediate_dir,
                        samtools_path="samtools", bcftools_path="bcftools", ref_fasta=None):
     """Processa um único arquivo CRAM."""
     sample_name = os.path.splitext(os.path.basename(cram_file))[0]
-    sample_output_dir = os.path.join(output_dir, sample_name)
+    sample_output_dir = os.path.join(output_dir, "reports", sample_name)
     os.makedirs(sample_output_dir, exist_ok=True)
 
     # Configura o logging para a amostra específica
-    sample_log_file = os.path.join(sample_output_dir, "logs", f"{sample_name}.log")
+    sample_log_file = os.path.join(sample_output_dir, "logs", f"logs_{sample_name}.log")
     os.makedirs(os.path.dirname(sample_log_file), exist_ok=True)
     sample_logger = logging.getLogger(sample_name)
     if not sample_logger.handlers:
@@ -63,8 +72,8 @@ def process_one_sample(cram_file, bed_file, output_dir, intermediate_dir,
     # Calcula a cobertura usando o arquivo BAM gerado
     try:
         coverage_results = calculate_coverage(bam_file, bed_file, samtools_path)
-        coverage_file_txt = os.path.join(sample_output_dir, "coverage_results.txt")
-        coverage_file_png = os.path.join(sample_output_dir, "coverage_results.png")
+        coverage_file_txt = os.path.join(sample_output_dir, f"coverage_{sample_name}_results.txt")
+        coverage_file_png = os.path.join(sample_output_dir, f"coverage_{sample_name}_results.png")
 
         # Salva os resultados em um arquivo de texto
         with open(coverage_file_txt, "w") as f:
@@ -94,7 +103,7 @@ def process_one_sample(cram_file, bed_file, output_dir, intermediate_dir,
     # Estima o sexo genético
     try:
         sex_inference_results = infer_sex(bam_file, bed_file, samtools_path, bcftools_path)
-        sex_inference_file = os.path.join(sample_output_dir, "sex_inference.txt")
+        sex_inference_file = os.path.join(sample_output_dir, f"sex_inference_{sample_name}.txt")
         with open(sex_inference_file, "w") as f:
             f.write(f"Cromossomo X Cobertura: {sex_inference_results['x_coverage']:.2f}x\n")
             f.write(f"Cromossomo Y Cobertura: {sex_inference_results['y_coverage']:.2f}x\n")
@@ -152,23 +161,23 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Pipeline de Controle de Qualidade de WES (Múltiplos Arquivos)")
     parser.add_argument("--cram_dir",
-                        default=os.getenv("CRAM_FILES_DIR"),
+                        default=project_dir+'data/input/cram_files',
                         help="Diretório contendo os arquivos CRAM")
     parser.add_argument("--bed",
-                        default=os.getenv("BED_FILES_DIR"),
+                        default=project_dir+'data/input/bed_files/'+os.getenv("BED_FILE_NAME"),
                         help="Caminho para o arquivo BED")
     parser.add_argument("--output_dir",
-                        default=os.getenv("OUTPUT_DIR"),
+                        default=project_dir+'data/output',
                         help="Diretório de saída principal")
     parser.add_argument("--intermediate_dir",
-                        default=os.getenv("INTERMEDIATE_DIR"),
+                        default=project_dir+'data/intermediate',
                         help="Diretório intermediário")
     parser.add_argument("--samtools_path", default="samtools",
                         help="Caminho para samtools (opcional)")
     parser.add_argument("--bcftools_path", default="bcftools",
                         help="Caminho para bcftools (opcional)")
     parser.add_argument("--ref_fasta",
-                        default=os.getenv("REF_GEN_FILE"),
+                        default=project_dir+'data/input/ref_gen_files/'+os.getenv("REF_GEN_FILE_NAME"),
                         help="Caminho para o arquivo FASTA do genoma de referência (opcional)")
 
     args = parser.parse_args()
