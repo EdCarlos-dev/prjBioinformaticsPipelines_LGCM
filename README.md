@@ -37,7 +37,10 @@ Bcftools
 
 Use o código
 
+```
+bash
 sudo apt-get install samtools bcftools
+```
 
 - 2 - Linguagens
 
