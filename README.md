@@ -23,15 +23,7 @@ Este pipeline realiza o controle de qualidade de dados de sequenciamento do exom
 
 ---
 
-Objetivo:
-0. Conversão do arquivo cram;  
-1. Cálculo de cobertura genômica;
-2. Inferência do sexo genético a partir dos dados de sequenciamento;
-3. Estimativa de contaminação por DNA exógeno ou de outros indivíduos.
-
-
-
-# Estrutura do projto
+## Estrutura do projto
 
 
 ## 3. 🛠️ Instruções de Uso
