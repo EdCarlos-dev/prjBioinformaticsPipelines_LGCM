@@ -1,19 +1,38 @@
-bioinformatics_venv
-# Ignorar toda a pasta data
-data/*
+# Ignora o ambiente virtual local
+bioinformatics_venv/
+dev/__pycache__/
 
-# Permitir que as sub pastas apareçam
+# Ignora todos os arquivos na pasta data
+data/**
+
+# Exceto os diretórios (estrutura)
+!data/
+
 !data/input/
-!data/intermediate
-!data/output
+!data/input/bed_files/
+!data/input/crai_files/
+!data/input/cram_files/
+!data/input/ref_gen_files/
 
-# ignorar todos os arquivos dentro da pasta 
-# Comente as linhas para que os arquivos sejam carregados no git
-data/input/*
-data/intermediate/*
-data/output/*
+!data/intermediate/
+!data/intermediate/bam_files/
 
-# marcador para manter a pasta visível no Git
+!data/output/
+!data/output/logs/
+!data/output/reports/
+
+# Permite arquivos .gitkeep
+!data/.gitkeep
+
 !data/input/.gitkeep
+!data/input/bed_files/.gitkeep
+!data/input/crai_files/.gitkeep
+!data/input/cram_files/.gitkeep
+!data/input/ref_gen_files/.gitkeep
+
 !data/intermediate/.gitkeep
+!data/intermediate/bam_files/.gitkeep
+
 !data/output/.gitkeep
+!data/output/logs/.gitkeep
+!data/output/reports/.gitkeep
