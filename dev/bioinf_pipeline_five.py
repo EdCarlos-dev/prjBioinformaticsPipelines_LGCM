@@ -3,6 +3,7 @@ import logging
 import os
 import glob
 import argparse 
+from tqdm import tqdm
 
 from dotenv import load_dotenv
 from sample_processing import process_one_sample
@@ -50,7 +51,7 @@ def main(cram_dir, bed_file, output_dir, intermediate_dir,
         logging.error(f"Nenhum arquivo CRAM encontrado em: {cram_dir}")
         raise FileNotFoundError(f"Nenhum arquivo CRAM encontrado em: {cram_dir}")
 
-    for cram_file in cram_files:
+    for cram_file in tqdm(cram_files, desc="Processando amostras", unit="amostra", colour='blue'):
         try: 
             # verificar antes se o arquivo cram já foi processado 
             process_one_sample(cram_file, bed_file, output_dir, intermediate_dir,
