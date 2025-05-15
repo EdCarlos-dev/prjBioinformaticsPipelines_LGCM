@@ -5,6 +5,7 @@ from tqdm import tqdm
 import matplotlib.pyplot as plt
 
 from convert_files import convert_cram_to_bam
+from indexing_files import index_bam_with_progress
 from coverage import calculate_coverage
 from sex_inference import infer_sex
 
@@ -42,10 +43,10 @@ def process_one_sample(cram_file, bed_file, output_dir, intermediate_dir,
 
         else:
         
-            print(f'Convertendo CRAM para BAM: {cram_file} -> {bam_file}')
-            with tqdm(total=1, desc=f"Convertendo {sample_name}", unit="amostra") as pbar:
-                convert_cram_to_bam(cram_file, bam_file, samtools_path, ref_fasta)
-                pbar.update(1)
+            # print(f'Convertendo CRAM para BAM: {cram_file} -> {bam_file}')
+            # with tqdm(total=1, desc=f"Convertendo {sample_name}", unit="amostra") as pbar:
+            convert_cram_to_bam(cram_file, bam_file, samtools_path, ref_fasta)
+                # pbar.update(1)
 
     except Exception as e:
         sample_logger.error(f"Erro ao converter CRAM para BAM para a amostra {sample_name}: {e}")
@@ -63,7 +64,9 @@ def process_one_sample(cram_file, bed_file, output_dir, intermediate_dir,
     
             # Indexa o arquivo BAM
             print(f'Indexando arquivo BAM: {bam_file}')
-            subprocess.run([samtools_path, "index", bam_file], check=True)
+            # subprocess.run([samtools_path, "index", bam_file], check=True)
+            index_bam_with_progress(bam_file, samtools_path)
+
             sample_logger.info(f"Arquivo BAM indexado: {bam_file}.bai")
     except subprocess.CalledProcessError as e:
         sample_logger.error(f"Erro ao indexar o arquivo BAM: {e}")
