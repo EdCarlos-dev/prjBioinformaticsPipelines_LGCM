@@ -125,7 +125,7 @@ wget ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_referen
 
 ### 3.6. Estrutura Esperada
 
-<img src="docs/estrutura_com_dados.png">
+<img src="docs/project_structure_with_data.png">
 
 ### 3.7. Executando o Pipeline
 
