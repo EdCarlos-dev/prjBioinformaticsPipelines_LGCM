@@ -124,13 +124,16 @@ wget ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_referen
 - Para a verificação da contaminação usei os arquivos vcf desse site (é possível baixar separadamente por cromossomo o script contaminatio.py vai concatenar usando o bcftools, logo é possível usar todos ou apenas doi como desejado)
 --- https://www.ebi.ac.uk/ena/browser/view/PRJEB30460
 
+### 3.6. Estrutura Esperada
 
-### 3.6. Executando o Pipeline
+<img src="">
+
+### 3.7. Executando o Pipeline
 
 - No terminal, posicionado na pasta pathdoprojeto/dev/apps do projeto ative a env e execute o arquivo do pipeline 
 
 ```
-python pipeline.py
+python bioinf_pipeline_qc.py
 ```
 
 ## 4 📦 Dependências e Ferramentas
@@ -148,7 +151,7 @@ bcftools
 
 bash
 ```
-python pipeline.py
+python bioinf_pipeline_qc.py
 ```
 
 - Aqui temos um modo de usar o pipeline usando argumentos presentes no script , onde é possível apontar para um path ou arquivos diferentes para uso
