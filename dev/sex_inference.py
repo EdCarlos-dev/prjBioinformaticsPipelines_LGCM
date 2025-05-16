@@ -339,11 +339,11 @@ def infer_sex(bam_file, bed_file, samtools_path="samtools", bcftools_path="bcfto
         x_coverage = calculate_chromosome_coverage(bam_file, "X", bed_file, samtools_path)
         y_coverage = calculate_chromosome_coverage(bam_file, "Y", bed_file, samtools_path)
 
-        sex = "Unknown"
+        sex = "Inconclusivo"
         if x_coverage > 0 and y_coverage == 0:
-            sex = "Female"
+            sex = "Feminino"
         elif x_coverage > 0 and y_coverage > 0:
-            sex = "Male"
+            sex = "Masculino"
 
         return {
             "x_coverage": x_coverage,
