@@ -8,6 +8,13 @@ from convert_files import convert_cram_to_bam
 from indexing_files import index_bam_with_progress
 from coverage import calculate_coverage
 from sex_inference import infer_sex
+from panel_map_create import prepare_verifybamid_panel
+
+# diretório do arquivo atual
+diretorio_arquivo = os.path.dirname(os.path.abspath(__file__))
+# Pasta do projeto a partir desse script
+project_dir = os.path.normpath(f"{diretorio_arquivo}{os.sep}..{os.sep}..{os.sep}") + os.sep
+# assim posso salvar os arquivos com seguraça em data
 
 
 def process_one_sample(cram_file, bed_file, output_dir, intermediate_dir,
@@ -120,6 +127,23 @@ def process_one_sample(cram_file, bed_file, output_dir, intermediate_dir,
         sample_logger.error(f"Erro ao inferir o sexo genético para a amostra {sample_name}: {e}")
         raise
     
+    # Cria o mapa de genomas para o VerifyBamID # futura implementação
+    # try:
+    #     # if os.path.exists(bam_file):
+    #     #     sample_logger.info(f"Arquivo BAM já existe: {bam_file}")
+    #     #     print(f"Arquivo BAM já existe: {bam_file}")
+
+    #     # else:
+        
+    #         # print(f'Convertendo CRAM para BAM: {cram_file} -> {bam_file}')
+    #         # with tqdm(total=1, desc=f"Convertendo {sample_name}", unit="amostra") as pbar:
+    #     prepare_verifybamid_panel(chromossome_dir=f'{project_dir}data{os.sep}input{os.sep}vcfs_separated_files', intermediate_dir = f'{project_dir}data{os.sep}intermediate{os}verify_bam_id_map' ,output_name='merged_panel.vcf.gz')
+    #             # pbar.update(1)
+
+    # except Exception as e:
+    #     sample_logger.error(f"Erro ao gerar o mapa de genomas : {e}")
+    #     raise
+
     print(f'Processamento da amostra {sample_name} concluído')
 
     sample_logger.info(f"Processamento da amostra {sample_name} concluído")

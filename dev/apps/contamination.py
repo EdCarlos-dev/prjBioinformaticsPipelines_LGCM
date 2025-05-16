@@ -2,6 +2,10 @@
 import subprocess
 import logging
 
+
+# não implementado
+
+
 def estimate_contamination(bam_file, verifybamid_path="VerifyBamID"):
     """Estima a contaminação em um arquivo BAM."""
 

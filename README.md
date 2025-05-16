@@ -120,8 +120,9 @@ wget ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_referen
 * OBSERVAÇÃO 3 : O Script foi estruturado para iterar em todos os arquivos  .cram existentes na parta data/cram_files/ gerando os respectivos .bam e .bai para análise e caso o script seja interrompido no meio do processo ele não fará a extração do  cram - BAM já realizada. Caso haja um erro e o último .bam gerado estejá corrompido , a sugestão é que o mesmo seja apagado para retomar o processo.
 
 
-- Para a verificação da contaminação usei os arquivos vcf desse site (é possível baixar separadamente por cromossomo o script contaminatio.py vai concatenar usando o bcftools, logo é possível usar todos ou apenas doi como desejado)
+- Para a verificação da contaminação (NÃO IMPLEMENTADA) usei os arquivos vcf desse site (é possível baixar separadamente por cromossomo o script contamination.py vai concatenar usando o bcftools, logo é possível usar todos ou apenas dois cromossomos como desejado)
 --- https://www.ebi.ac.uk/ena/browser/view/PRJEB30460
+
 
 ### 3.6. Estrutura Esperada
 
