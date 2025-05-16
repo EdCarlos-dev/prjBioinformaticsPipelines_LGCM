@@ -190,7 +190,7 @@ Cromossomo X Cobertura: 62.88x
 Cromossomo Y Cobertura: 90.12x
 Sexo Predito: Masculino
 
-- Saídas de log esperadas
+### 7.1.Saídas de log esperadas
 
 * outputs/logs/pipeline.log
 
