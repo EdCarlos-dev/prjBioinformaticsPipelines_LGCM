@@ -25,7 +25,7 @@ Este pipeline realiza o controle de qualidade de dados de sequenciamento do exom
 
 ## Estrutura do projeto
 
-<img src="">
+<img src="docs/estrutura_projeto.png">
 
 
 ## 3. 🛠️ Instruções de Uso
