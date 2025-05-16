@@ -25,6 +25,7 @@ Este pipeline realiza o controle de qualidade de dados de sequenciamento do exom
 
 ## Estrutura do projeto
 
+<img src="">
 
 
 ## 3. 🛠️ Instruções de Uso
@@ -62,19 +63,22 @@ cd repo
 
 ### 3.2. Criando o Ambiente Virtual
 
+* posicionado na pasta do projeto
+
 ```
 python -m venv bioinformatics_venv
 source bioinformatics_venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 3.3. Estrutura Esperada de Diretórios
+### 3.3. Estrutura Esperada de Diretórios de dados
 
 ```
 data/
 ├── input/
-│   ├── cram_files/        # Arquivos .cram
 │   ├── bed_files/         # Arquivo BED com regiões de interesse
+│   ├── crai_files/        # Arquivos .crai
+│   ├── cram_files/        # Arquivos .cram
 │   └── ref_gen_files/     # Genoma de referência (.fa e .fai)
 ├── intermediate/          # BAMs e arquivos intermediários
 └── output/                # Relatórios finais e gráficos
@@ -105,7 +109,17 @@ bash
 wget ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa
 ```
 
-* OBSERVAÇÃO : Certifique-se de que os arquivos CRAI e CRAM tenham o mesmo nome e verifique a integridade do download
+
+* OBSERVAÇÃO 1 : Certifique-se de alterar em dev/apps/.env os nomes dos arquivos que deseja usar como .bed e .fa
+
+--- O script concatena o caminho da pasta com o nome na env, 
+
+--- assim é possível ter mais de um arquivo bed já carregados na pasta data/bed_files/ e usá-los conforme a necessidade 
+
+* OBSERVAÇÃO 2 : Certifique-se de que os arquivos CRAI e CRAM tenham o mesmo nome e verifique a integridade do download
+
+* OBSERVAÇÃO 3 : O Script foi estruturado para iterar em todos os arquivos  .cram existentes na parta data/cram_files/ gerando os respectivos .bam e .bai para análise e caso o script seja interrompido no meio do processo ele não fará a extração do  cram - BAM já realizada. Caso haja um erro e o último .bam gerado estejá corrompido , a sugestão é que o mesmo seja apagado para retomar o processo.
+
 
 - Para a verificação da contaminação usei os arquivos vcf desse site (é possível baixar separadamente por cromossomo o script contaminatio.py vai concatenar usando o bcftools, logo é possível usar todos ou apenas doi como desejado)
 --- https://www.ebi.ac.uk/ena/browser/view/PRJEB30460
@@ -113,7 +127,7 @@ wget ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_referen
 
 ### 3.6. Executando o Pipeline
 
-- No terminal, posicionado na pasta do projeto ative a env e execute o arquivo do pipeline 
+- No terminal, posicionado na pasta pathdoprojeto/dev/apps do projeto ative a env e execute o arquivo do pipeline 
 
 ```
 python pipeline.py
