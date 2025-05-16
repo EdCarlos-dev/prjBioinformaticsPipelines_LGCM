@@ -1,5 +1,6 @@
 # Ignora o ambiente virtual local
 bioinformatics_venv/
+dev/apps/__pycache__/
 dev/__pycache__/
 
 # Ignora todos os arquivos na pasta data
