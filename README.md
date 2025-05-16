@@ -188,7 +188,7 @@ Sexo
 
 Cromossomo X Cobertura: 62.88x
 Cromossomo Y Cobertura: 90.12x
-Sexo Predito: Male
+Sexo Predito: Masculino
 
 - Saídas de log esperadas
 
