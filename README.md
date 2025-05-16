@@ -170,15 +170,25 @@ python pipeline.py \
 
 
 ## 6. 📂 Explicação dos Outputs
+
+É gerado um output para o pipeline
+
+```
+data/output/logs/
+├── pipeline.log   # Logs detalhados do pipeline
+
+```
+
+
 Para cada amostra processada, será criada uma pasta:
 
-bash
+
 ```
 data/output/reports/NOME_DA_AMOSTRA/
 ├── coverage_nome_da_amostra_results.txt   # Métricas de cobertura
 ├── coverage_nome_da_amostra_results.png   # Histograma de cobertura
 ├── sex_inference_nome_da_amostra.txt      # Resultado da inferência de sexo
-├── logs/                                  # Logs detalhados por amostra
+├── logs/                                  # Logs detalhados da amostra
 ```
 
 Exemplos de métricas:
