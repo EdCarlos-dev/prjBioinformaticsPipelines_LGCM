@@ -57,7 +57,6 @@ sudo apt-get install samtools bcftools
 ```
 bash
 git clone https://github.com/EdCarlos-dev/prjBioinformaticsPipelines_LGCM
-cd repo
 
 ```
 
