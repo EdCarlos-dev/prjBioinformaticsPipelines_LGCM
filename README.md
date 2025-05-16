@@ -202,8 +202,8 @@ Sexo Predito: Masculino
 2025-05-15 18:01:11,658 - INFO - Arquivo BAM indexado: /diretorioprojeto/data/intermediate/bam_files/[Nome_Amostra].bam.bai
 2025-05-15 18:03:07,253 - INFO - Cobertura calculada e salva em /diretorioprojeto/data/output/reports/[Nome_Amostra]/coverage_[Nome_Amostra]_results.txt
 2025-05-15 18:03:07,660 - INFO - Histograma de cobertura gerado e salvo em /diretorioprojeto/data/output/reports/[Nome_Amostra]/coverage_[Nome_Amostra]_results.png
-2025-05-15 18:03:10,639 - INFO - Cobertura do cromossomo X: 62.88x
-2025-05-15 18:03:10,914 - INFO - Cobertura do cromossomo Y: 90.12x
+2025-05-15 18:03:10,639 - INFO - Cobertura do cromossomo X: Valor x
+2025-05-15 18:03:10,914 - INFO - Cobertura do cromossomo Y: Valor x
 2025-05-15 18:03:10,915 - INFO - Sexo genético inferido e salvo em /diretorioprojeto/data/output/reports/[Nome_Amostra]/sex_inference_[Nome_Amostra].txt
 2025-05-15 18:03:10,915 - INFO - Processamento da amostra [Nome_Amostra] concluído
 2025-05-15 18:03:10,935 - INFO - Pipeline de controle de qualidade para múltiplos arquivos concluído
