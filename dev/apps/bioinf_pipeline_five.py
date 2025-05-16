@@ -11,7 +11,7 @@ from sample_processing import process_one_sample
 # diretório do arquivo atual
 diretorio_arquivo = os.path.dirname(os.path.abspath(__file__))
 # Pasta do projeto a partir desse script
-project_dir = os.path.normpath(f"{diretorio_arquivo}{os.sep}..{os.sep}") + os.sep
+project_dir = os.path.normpath(f"{diretorio_arquivo}{os.sep}..{os.sep}..{os.sep}") + os.sep
 # assim posso salvar os arquivos com seguraça em data
 
 # Carrega as variáveis do arquivo .env
