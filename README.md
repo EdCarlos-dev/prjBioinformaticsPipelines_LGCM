@@ -181,14 +181,20 @@ Sexo genético estimado
 cobertura mantive os txts completos na pasta output
 
 Profundidade Média: 67738.44x
+
 % Coberto >= 10x: 97.27%
+
 % Coberto >= 30x: 96.84%
+
 
 Sexo
 
 Cromossomo X Cobertura: 62.88x
+
 Cromossomo Y Cobertura: 90.12x
+
 Sexo Predito: Masculino
+
 
 ### 7.1.Saídas de log esperadas
 
